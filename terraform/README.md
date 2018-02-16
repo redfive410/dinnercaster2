@@ -6,8 +6,15 @@ terraform/
 ├── README.md
 ├── main.tf
 ├── modules
-│   └── iam
-│       └── main.tf
+│   ├── alexa
+│   │   └── README.md
+│   └── api
+│       ├── dynamodb
+│       │   └── main.tf
+│       ├── iam
+│       │   └── main.tf
+│       └── lambda
+│           └── main.tf
 ├── secret.tfvars
 ├── secret.tfvars.example
 ├── terraform.tfstate
