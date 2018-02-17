@@ -63,6 +63,12 @@ data "archive_file" "dinnercaster2-get-dinnerlist-zip" {
   output_path = "modules/api/lambda/dinnercaster2-get-dinnerlist.zip"
 }
 
+data "archive_file" "dinnercaster2-get-dinner-zip" {
+  type        = "zip"
+  source_file = "modules/api/lambda/dinnercaster2-get-dinner/lambda_function.py"
+  output_path = "modules/api/lambda/dinnercaster2-get-dinner.zip"
+}
+
 resource "aws_lambda_function" "lambda-dinnercaster2-init-dynamodb" {
     filename = "${data.archive_file.dinnercaster2-init-dynamodb-zip.output_path}"
     function_name = "dinnercaster2-init-dynamodb"
@@ -81,4 +87,14 @@ resource "aws_lambda_function" "lambda-dinnercaster2-get-dinnerlist" {
     runtime = "python2.7"
     timeout = 10
     source_code_hash = "${data.archive_file.dinnercaster2-get-dinnerlist-zip.output_base64sha256}"
+}
+
+resource "aws_lambda_function" "lambda-dinnercaster2-get-dinner" {
+    filename = "${data.archive_file.dinnercaster2-get-dinner-zip.output_path}"
+    function_name = "dinnercaster2-get-dinner"
+    role = "${aws_iam_role.lambda-dinnercaster2-api-role.arn}"
+    handler = "lambda_function.lambda_handler"
+    runtime = "python2.7"
+    timeout = 10
+    source_code_hash = "${data.archive_file.dinnercaster2-get-dinner-zip.output_base64sha256}"
 }
