@@ -11,9 +11,10 @@ terraform/
 │   └── api
 │       ├── dynamodb
 │       │   └── main.tf
-│       ├── iam
-│       │   └── main.tf
 │       └── lambda
+│           ├── dinnercaster2-init-dynamodb
+│           │   └── lambda_function.py
+│           ├── dinnercaster2-init-dynamodb.zip
 │           └── main.tf
 ├── secret.tfvars
 ├── secret.tfvars.example
