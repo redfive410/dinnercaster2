@@ -12,9 +12,12 @@ terraform/
 │       ├── dynamodb
 │       │   └── main.tf
 │       └── lambda
+│           ├── dinnercaster2-get-dinner
+│           │   └── lambda_function.py
+│           ├── dinnercaster2-get-dinnerlist
+│           │   └── lambda_function.py
 │           ├── dinnercaster2-init-dynamodb
 │           │   └── lambda_function.py
-│           ├── dinnercaster2-init-dynamodb.zip
 │           └── main.tf
 ├── secret.tfvars
 ├── secret.tfvars.example
