@@ -110,3 +110,11 @@ resource "aws_cloudwatch_event_target" "cron" {
   target_id = "Cron"
   arn       = "${aws_lambda_function.lambda-dinnercaster2-init-dynamodb.arn}"
 }
+
+resource "aws_lambda_permission" "allow-cloudwatch-to-call-lambda" {
+    statement_id = "AllowExecutionFromCloudWatch"
+    action = "lambda:InvokeFunction"
+    function_name = "${aws_lambda_function.lambda-dinnercaster2-init-dynamodb.function_name}"
+    principal = "events.amazonaws.com"
+    source_arn = "${aws_cloudwatch_event_rule.init-dynamodb.arn}"
+}
