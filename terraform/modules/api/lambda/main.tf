@@ -98,3 +98,15 @@ resource "aws_lambda_function" "lambda-dinnercaster2-get-dinner" {
     timeout = 10
     source_code_hash = "${data.archive_file.dinnercaster2-get-dinner-zip.output_base64sha256}"
 }
+
+resource "aws_cloudwatch_event_rule" "init-dynamodb" {
+  name        = "init-dynamodb"
+  description = "init-dynamodb"
+  schedule_expression = "rate(1 minute)"
+}
+
+resource "aws_cloudwatch_event_target" "cron" {
+  rule      = "${aws_cloudwatch_event_rule.init-dynamodb.name}"
+  target_id = "Cron"
+  arn       = "${aws_lambda_function.lambda-dinnercaster2-init-dynamodb.arn}"
+}
