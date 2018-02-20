@@ -20,6 +20,14 @@ EOF
 data "aws_iam_policy_document" "lambda-dinnercaster2-alexa-role-policy-document" {
   statement {
     actions = [
+      "lambda:InvokeFunction"
+    ]
+    resources = [
+      "arn:aws:lambda:us-west-2:109613526816:function:dinnercaster2-*"
+    ]
+  }
+  statement {
+    actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
       "logs:PutLogEvents"

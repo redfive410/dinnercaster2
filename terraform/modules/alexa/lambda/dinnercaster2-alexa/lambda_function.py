@@ -1,3 +1,6 @@
+import boto3
+import json
+
 # --------------- Helpers that build all of the responses ----------------------
 
 def build_speechlet_response(title, output):
@@ -24,6 +27,15 @@ def build_response(session_attributes, speechlet_response):
 # --------------- Functions that control the skill's behavior ------------------
 
 def get_dinner_response():
+    client = boto3.client('lambda')
+
+    response = client.invoke(
+        FunctionName='dinnercaster2-get-dinnerlist'
+    )
+
+    db = json.loads(response['Payload'].read())
+    print(json.dumps(db, indent=2))
+
     card_title = "Dinnercaster"
     speech_output = "Here's your dinner idea: Tacos"
     return build_response(None, build_speechlet_response(
