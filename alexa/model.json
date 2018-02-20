@@ -1,0 +1,32 @@
+{
+    "languageModel": {
+        "invocationName": "dinner caster",
+        "intents": [
+            {
+                "name": "DinnerCasterIntent",
+                "slots": [],
+                "samples": [
+                    "a dinner idea",
+                    "tell me a dinner idea",
+                    "give me a dinner idea"
+                ]
+            },
+            {
+                "name": "AMAZON.HelpIntent",
+                "slots": [],
+                "samples": []
+            },
+            {
+                "name": "AMAZON.StopIntent",
+                "slots": [],
+                "samples": []
+            },
+            {
+                "name": "AMAZON.CancelIntent",
+                "slots": [],
+                "samples": []
+            }
+        ],
+        "types": []
+    }
+}
