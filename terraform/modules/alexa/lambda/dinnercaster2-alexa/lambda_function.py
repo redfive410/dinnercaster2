@@ -1,5 +1,8 @@
 import boto3
 import json
+import urllib2
+import os
+import random
 
 # --------------- Helpers that build all of the responses ----------------------
 
@@ -34,16 +37,56 @@ def get_dinner_response():
     )
 
     dinners = json.loads(response['Payload'].read())
+    url = "http://api.wunderground.com/api/" + os.environ['wunderground_api_key'] + "/conditions/q/CA/Poway.json"
+    response = urllib2.urlopen(url)
+    weather = json.loads(response.read())
+    day = weather['current_observation']['local_time_rfc822'][0:3]
+    temp = weather['current_observation']['temp_f']
+
+    names = []
+    day_scores = []
+    general_scores = []
+    weather_scores = []
 
     for i in range(len(dinners)):
-      print(dinners[i]['dinnername'])
-      print(dinners[i]['scores'])
+      names.append(dinners[i]['dinnername'])
 
       scores = json.loads(dinners[i]['scores'])
-      print(scores['GeneralScore'])
+      general_scores.append(scores['GeneralScore'])
+
+      if temp < 80:
+          weather_scores.append(scores['ColdWeatherScore'])
+      else:
+          weather_scores.append(scores['HotWeatherScore'])
+
+      if day == "Mon":
+          day_scores.append(scores['MondayScore'])
+      elif day == "Tue":
+          day_scores.append(scores['TuesdayScore'])
+      elif day == "Wed":
+          day_scores.append(scores['WednesdayScore'])
+      elif day == "Thu":
+          day_scores.append(scores['ThursdayScore'])
+      elif day == "Fri":
+          day_scores.append(scores['FridayScore'])
+      elif day == "Sat":
+          day_scores.append(scores['SaturdayScore'])
+      elif day == "Sun":
+          day_scores.append(scores['SundayScore'])
+
+    final_scores = {}
+    dinner_ideas = []
+
+    for i in range(len(names)):
+      final_scores[names[i]] = general_scores[i] * (day_scores[i] + weather_scores[i])
+
+      if final_scores[names[i]] > 25:
+        dinner_ideas.append(names[i])
+
+    print final_scores
 
     card_title = "Dinnercaster"
-    speech_output = "Here's your dinner idea: " + dinners[0]['dinnername']
+    speech_output = "Here's your dinner idea: " + random.choice(dinner_ideas)
     return build_response(None, build_speechlet_response(
         card_title, speech_output))
 

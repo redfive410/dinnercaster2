@@ -63,6 +63,12 @@ resource "aws_lambda_function" "lambda-dinnercaster2-alexa" {
     runtime = "python2.7"
     timeout = 10
     source_code_hash = "${data.archive_file.dinnercaster2-alexa-zip.output_base64sha256}"
+
+    environment {
+      variables = {
+        wunderground_api_key = "88f0a6fd8156bd5f"
+      }
+    }
 }
 
 resource "aws_lambda_permission" "with_alexa" {
