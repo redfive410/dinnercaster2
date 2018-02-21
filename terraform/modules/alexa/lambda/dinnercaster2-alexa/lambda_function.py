@@ -33,11 +33,18 @@ def get_dinner_response():
         FunctionName='dinnercaster2-get-dinnerlist'
     )
 
-    db = json.loads(response['Payload'].read())
-    print(json.dumps(db, indent=2))
+    dinners = json.loads(response['Payload'].read())
+    print(json.dumps(dinners, indent=2))
+
+    name = dinners[0]['dinnername']
+    scores = json.loads(dinners[0]['scores'])
+
+    print(name)
+    print(json.dumps(scores, indent=2))
+    print(scores['GeneralScore'])
 
     card_title = "Dinnercaster"
-    speech_output = "Here's your dinner idea: Tacos"
+    speech_output = "Here's your dinner idea: " + name
     return build_response(None, build_speechlet_response(
         card_title, speech_output))
 
