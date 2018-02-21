@@ -39,7 +39,7 @@ def get_dinner_response():
       print(dinners[i]['dinnername'])
       print(dinners[i]['scores'])
 
-      scores = json.loads(dinners[0]['scores'])
+      scores = json.loads(dinners[i]['scores'])
       print(scores['GeneralScore'])
 
     card_title = "Dinnercaster"
