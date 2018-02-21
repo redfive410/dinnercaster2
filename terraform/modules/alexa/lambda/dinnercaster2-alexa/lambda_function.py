@@ -34,17 +34,16 @@ def get_dinner_response():
     )
 
     dinners = json.loads(response['Payload'].read())
-    print(json.dumps(dinners, indent=2))
 
-    name = dinners[0]['dinnername']
-    scores = json.loads(dinners[0]['scores'])
+    for i in range(len(dinners)):
+      print(dinners[i]['dinnername'])
+      print(dinners[i]['scores'])
 
-    print(name)
-    print(json.dumps(scores, indent=2))
-    print(scores['GeneralScore'])
+      scores = json.loads(dinners[0]['scores'])
+      print(scores['GeneralScore'])
 
     card_title = "Dinnercaster"
-    speech_output = "Here's your dinner idea: " + name
+    speech_output = "Here's your dinner idea: " + dinners[0]['dinnername']
     return build_response(None, build_speechlet_response(
         card_title, speech_output))
 
